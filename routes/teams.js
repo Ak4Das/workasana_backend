@@ -48,7 +48,9 @@ router.get("/:id", auth, async (req, res) => {
       "_id name email role",
     )
 
-    if (!team) return res.status(404).json({ error: "Team not found." })
+    if (!team) {
+      return res.status(404).json({ error: "Team not found." })
+    }
 
     res.status(200)
     res.json({
@@ -66,9 +68,7 @@ router.patch("/:teamId", auth, async (req, res) => {
   const { teamId } = req.params
 
   if (name !== undefined && !name.trim()) {
-    return res
-      .status(400)
-      .json({ error: "Team name cannot be blank." })
+    return res.status(400).json({ error: "Team name cannot be blank." })
   }
 
   try {
@@ -79,8 +79,13 @@ router.patch("/:teamId", auth, async (req, res) => {
         .json({ error: "The requested team profile could not be found." })
     }
 
-    if (name !== undefined) team.name = name.trim()
-    if (description !== undefined) team.description = description.trim()
+    if (name !== undefined) {
+      team.name = name.trim()
+    }
+    
+    if (description !== undefined) {
+      team.description = description.trim()
+    }
 
     if (members !== undefined) {
       if (!Array.isArray(members)) {

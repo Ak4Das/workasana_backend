@@ -9,11 +9,25 @@ router.get("/", auth, async (req, res) => {
       req.query
     let properties = {}
 
-    if (team) properties.team = team
-    if (project) properties.project = project
-    if (status) properties.status = status
-    if (owner) properties.owners = owner
-    if (priority) properties.priority = priority
+    if (team) {
+      properties.team = team
+    }
+
+    if (project) {
+      properties.project = project
+    }
+
+    if (status) {
+      properties.status = status
+    }
+
+    if (owner) {
+      properties.owners = owner
+    }
+
+    if (priority) {
+      properties.priority = priority
+    }
 
     if (tags) {
       properties.tags = Array.isArray(tags) ? { $all: tags } : tags
@@ -53,7 +67,9 @@ router.get("/:id", auth, async (req, res) => {
       .populate("owners", "name email")
       .populate("tags", "name")
 
-    if (!task) return res.status(404).json({ error: "Task not found." })
+    if (!task) {
+      return res.status(404).json({ error: "Task not found." })
+    }
 
     res.status(200)
     res.json({
@@ -105,7 +121,9 @@ router.patch("/:id", auth, async (req, res) => {
     const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     }).populate("project team owners tags")
-    if (!updatedTask) return res.status(404).json({ error: "Task not found." })
+    if (!updatedTask) {
+      return res.status(404).json({ error: "Task not found." })
+    }
 
     res.status(200)
     res.json({
