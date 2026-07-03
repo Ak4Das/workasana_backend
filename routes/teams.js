@@ -61,4 +61,61 @@ router.get("/:id", auth, async (req, res) => {
   }
 })
 
+router.patch("/:teamId", auth, async (req, res) => {
+  const { name, description, members } = req.body
+  const { teamId } = req.params
+
+  if (name !== undefined && !name.trim()) {
+    return res
+      .status(400)
+      .json({ error: "Team name cannot be blank." })
+  }
+
+  try {
+    let team = await Team.findById(teamId)
+    if (!team) {
+      return res
+        .status(404)
+        .json({ error: "The requested team profile could not be found." })
+    }
+
+    if (name !== undefined) team.name = name.trim()
+    if (description !== undefined) team.description = description.trim()
+
+    if (members !== undefined) {
+      if (!Array.isArray(members)) {
+        return res
+          .status(400)
+          .json({ error: "Members property must be an array of user IDs." })
+      }
+      team.members = members
+    }
+
+    await team.save()
+
+    const updatedTeam = await Team.findById(teamId).populate(
+      "members",
+      "name email",
+    )
+
+    res.status(200)
+    res.json({
+      success: true,
+      message: "Team updated successfully",
+      respondedData: updatedTeam,
+    })
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        error: "Invalid reference ID formatting provided in arguments.",
+      })
+    }
+
+    res.status(500).json({
+      error:
+        "Internal server error processing team modifications: " + error.message,
+    })
+  }
+})
+
 module.exports = router
