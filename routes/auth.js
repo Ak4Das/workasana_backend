@@ -1,9 +1,9 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
-const User = require("../models/User")
-const auth = require("../middleware/auth")
+import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
+import User from "../models/User.js"
+import auth from "../middleware/auth.js"
 
 router.post("/signup", async (req, res) => {
   try {
@@ -72,4 +72,4 @@ router.get("/me", auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

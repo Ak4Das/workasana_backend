@@ -1,9 +1,9 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const Task = require("../models/Task")
-const Team = require("../models/Team")
-const auth = require("../middleware/auth")
-const User = require("../models/User")
+import Task from "../models/Task.js"
+import Team from "../models/Team.js"
+import auth from "../middleware/auth.js"
+import User from "../models/User.js"
 
 function findRemainingDays(createdAt, allocatedTime) {
   const createdAtDay = new Date(createdAt)
@@ -148,4 +148,4 @@ router.get("/last-week", auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

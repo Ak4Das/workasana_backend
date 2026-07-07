@@ -1,7 +1,7 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const Tag = require("../models/Tag")
-const auth = require("../middleware/auth")
+import Tag from "../models/Tag.js"
+import auth from "../middleware/auth.js"
 
 router.post("/", auth, async (req, res) => {
   try {
@@ -41,4 +41,4 @@ router.get("/", auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

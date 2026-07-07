@@ -1,15 +1,16 @@
-require("dotenv").config()
-const express = require("express")
-const cors = require("cors")
-const connectDB = require("./config/db")
+import dotenv from "dotenv"
+dotenv.config()
+import express from "express"
+import cors from "cors"
+import connectDB from "./config/db.js"
 
-const authRoutes = require("./routes/auth")
-const taskRoutes = require("./routes/tasks")
-const reportRoutes = require("./routes/reports")
-const teamRoutes = require("./routes/teams")
-const projectRoutes = require("./routes/projects")
-const tagRoutes = require("./routes/tags")
-const userRoutes = require("./routes/users")
+import authRoutes from "./routes/auth.js"
+import taskRoutes from "./routes/tasks.js"
+import reportRoutes from "./routes/reports.js"
+import teamRoutes from "./routes/teams.js"
+import projectRoutes from "./routes/projects.js"
+import tagRoutes from "./routes/tags.js"
+import userRoutes from "./routes/users.js"
 
 // Create Server
 const app = express()

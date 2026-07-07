@@ -1,7 +1,7 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const Task = require("../models/Task")
-const auth = require("../middleware/auth")
+import Task from "../models/Task.js"
+import auth from "../middleware/auth.js"
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -136,4 +136,4 @@ router.patch("/:id", auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

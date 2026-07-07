@@ -1,8 +1,8 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const User = require("../models/User")
-const auth = require("../middleware/auth")
-const bcrypt = require("bcryptjs/dist/bcrypt")
+import User from "../models/User.js"
+import auth from "../middleware/auth.js"
+import bcrypt from "bcryptjs"
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -25,8 +25,9 @@ router.get("/", auth, async (req, res) => {
 router.patch("/profile", auth, async (req, res) => {
   try {
     const userProfile = await User.findById(req.user.id)
-    if (!userProfile)
+    if (!userProfile) {
       return res.status(400).json({ error: "User profile not found." })
+    }
 
     if (req.body.name) {
       userProfile.name = req.body.name.trim()
@@ -50,13 +51,12 @@ router.patch("/profile", auth, async (req, res) => {
     res.status(200)
     res.json({
       success: true,
-      message: "Settings saved successfully.",
+      message: "User profile edited successfully.",
       respondedData: response,
     })
   } catch (error) {
-    console.dir(error)
     res.status(500).json({ success: false, message: error.message })
   }
 })
 
-module.exports = router
+export default router

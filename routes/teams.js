@@ -1,7 +1,7 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-const Team = require("../models/Team")
-const auth = require("../middleware/auth")
+import Team from "../models/Team.js"
+import auth from "../middleware/auth.js"
 
 router.post("/", auth, async (req, res) => {
   try {
@@ -82,7 +82,7 @@ router.patch("/:teamId", auth, async (req, res) => {
     if (name !== undefined) {
       team.name = name.trim()
     }
-    
+
     if (description !== undefined) {
       team.description = description.trim()
     }
@@ -123,4 +123,4 @@ router.patch("/:teamId", auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router
