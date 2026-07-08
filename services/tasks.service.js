@@ -132,3 +132,25 @@ export const updateTaskService = async (req, res) => {
     res.status(400).json({ success: false, message: error.message })
   }
 }
+
+export const deleteTaskService = async (req, res) => {
+  try {
+    const taskId = req.params.id
+    const task = await Task.findById(taskId)
+
+    if (!task) {
+      return res
+        .status(404)
+        .json({ error: "Target task assignment not found." })
+    }
+
+    await Task.findByIdAndDelete(taskId)
+
+    res.json({
+      success: true,
+      message: "Task successfully removed from workspace records.",
+    })
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message })
+  }
+}

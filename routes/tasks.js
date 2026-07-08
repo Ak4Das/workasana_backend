@@ -6,14 +6,17 @@ import {
   fetchTaskByIdService,
   createTaskService,
   updateTaskService,
+  deleteTaskService,
 } from "../services/tasks.service.js"
 
-router.get("/", auth, fetchTaskService)
+router.get("/", fetchTaskService)
 
 router.get("/:id", auth, fetchTaskByIdService)
 
 router.post("/", auth, createTaskService)
 
 router.patch("/:id", auth, updateTaskService)
+
+router.delete("/:id", auth, deleteTaskService)
 
 export default router

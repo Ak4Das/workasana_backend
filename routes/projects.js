@@ -8,6 +8,6 @@ import {
 
 router.post("/", auth, createProjectService)
 
-router.get("/", auth, fetchProjectsService)
+router.get("/", fetchProjectsService)
 
 export default router
