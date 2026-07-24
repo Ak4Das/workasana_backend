@@ -1,16 +1,17 @@
 import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
+
 import {
-  signupService,
-  loginService,
-  fetchMeService,
-} from "../services/auth.service.js"
+  signupController,
+  loginController,
+  fetchMeController,
+} from "../controllers/auth.controller.js"
 
-router.post("/signup", signupService)
+router.post("/signup", signupController)
 
-router.post("/login", loginService)
+router.post("/login", loginController)
 
-router.get("/me", auth, fetchMeService)
+router.get("/me", auth, fetchMeController)
 
 export default router

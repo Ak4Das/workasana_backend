@@ -2,18 +2,18 @@ import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
 import {
-  createTeamService,
-  fetchTeamsService,
-  fetchTeamByIdService,
-  updateTeamService,
-} from "../services/teams.service.js"
+  createTeamController,
+  fetchTeamsController,
+  fetchTeamByIdController,
+  updateTeamController,
+} from "../controllers/teams.controller.js"
 
-router.post("/", auth, createTeamService)
+router.post("/", auth, createTeamController)
 
-router.get("/", auth, fetchTeamsService)
+router.get("/", auth, fetchTeamsController)
 
-router.get("/:id", auth, fetchTeamByIdService)
+router.get("/:id", auth, fetchTeamByIdController)
 
-router.patch("/:teamId", auth, updateTeamService)
+router.patch("/:teamId", auth, updateTeamController)
 
 export default router

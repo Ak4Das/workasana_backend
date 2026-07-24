@@ -2,12 +2,12 @@ import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
 import {
-  fetchUsersService,
-  updateProfileService,
-} from "../services/users.service.js"
+  fetchUsersController,
+  updateProfileController,
+} from "../controllers/users.controller.js"
 
-router.get("/", auth, fetchUsersService)
+router.get("/", auth, fetchUsersController)
 
-router.patch("/profile", auth, updateProfileService)
+router.patch("/profile", auth, updateProfileController)
 
 export default router

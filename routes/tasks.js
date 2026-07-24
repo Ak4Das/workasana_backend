@@ -2,21 +2,21 @@ import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
 import {
-  fetchTaskService,
-  fetchTaskByIdService,
-  createTaskService,
-  updateTaskService,
-  deleteTaskService,
-} from "../services/tasks.service.js"
+  fetchTaskController,
+  fetchTaskByIdController,
+  createTaskController,
+  updateTaskController,
+  deleteTaskController,
+} from "../controllers/tasks.controller.js"
 
-router.get("/", fetchTaskService)
+router.get("/", fetchTaskController)
 
-router.get("/:id", auth, fetchTaskByIdService)
+router.get("/:id", auth, fetchTaskByIdController)
 
-router.post("/", auth, createTaskService)
+router.post("/", auth, createTaskController)
 
-router.patch("/:id", auth, updateTaskService)
+router.patch("/:id", auth, updateTaskController)
 
-router.delete("/:id", auth, deleteTaskService)
+router.delete("/:id", auth, deleteTaskController)
 
 export default router

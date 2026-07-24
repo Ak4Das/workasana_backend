@@ -2,18 +2,18 @@ import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
 import {
-  pendingTaskReportService,
-  closedTaskTeamReportService,
-  closedTaskOwnersReportsService,
-  lastWeekCompletedTaskReportService,
-} from "../services/reports.service.js"
+  pendingTaskReportController,
+  closedTaskTeamReportController,
+  closedTaskOwnersReportsController,
+  lastWeekCompletedTaskReportController,
+} from "../controllers/reports.controller.js"
 
-router.get("/pending", auth, pendingTaskReportService)
+router.get("/pending", auth, pendingTaskReportController)
 
-router.get("/closed-tasks-teams", auth, closedTaskTeamReportService)
+router.get("/closed-tasks-teams", auth, closedTaskTeamReportController)
 
-router.get("/closed-tasks-owners", auth, closedTaskOwnersReportsService)
+router.get("/closed-tasks-owners", auth, closedTaskOwnersReportsController)
 
-router.get("/last-week", auth, lastWeekCompletedTaskReportService)
+router.get("/last-week", auth, lastWeekCompletedTaskReportController)
 
 export default router

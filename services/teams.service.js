@@ -55,8 +55,8 @@ export const fetchTeamByIdService = async (req, res) => {
       message: "Team fetched successfully",
       respondedData: team,
     })
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message })
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message })
   }
 }
 
@@ -107,15 +107,6 @@ export const updateTeamService = async (req, res) => {
       respondedData: updatedTeam,
     })
   } catch (error) {
-    if (error.name === "CastError") {
-      return res.status(400).json({
-        error: "Invalid reference ID formatting provided in arguments.",
-      })
-    }
-
-    res.status(500).json({
-      error:
-        "Internal server error processing team modifications: " + error.message,
-    })
+    res.status(400).json({ success: false, message: error.message })
   }
 }

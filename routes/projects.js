@@ -1,13 +1,14 @@
 import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
+
 import {
-  createProjectService,
-  fetchProjectsService,
-} from "../services/project.service.js"
+  createProjectController,
+  fetchProjectsController,
+} from "../controllers/projects.controller.js"
 
-router.post("/", auth, createProjectService)
+router.post("/", auth, createProjectController)
 
-router.get("/", fetchProjectsService)
+router.get("/", fetchProjectsController)
 
 export default router

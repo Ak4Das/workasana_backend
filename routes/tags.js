@@ -1,10 +1,13 @@
 import express from "express"
 const router = express.Router()
 import auth from "../middleware/auth.js"
-import { createTagService, fetchTagsService } from "../services/tags.service.js"
+import {
+  createTagController,
+  fetchTagsController,
+} from "../controllers/tags.controller.js"
 
-router.post("/", auth, createTagService)
+router.post("/", auth, createTagController)
 
-router.get("/", auth, fetchTagsService)
+router.get("/", auth, fetchTagsController)
 
 export default router
