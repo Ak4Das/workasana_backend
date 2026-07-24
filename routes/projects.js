@@ -6,8 +6,10 @@ import {
   createProjectController,
   fetchProjectsController,
 } from "../controllers/projects.controller.js"
+import { SchemaValidation } from "../middleware/schemaValidation.middleware.js"
+import { projectSchema } from "../schemas/Project.schema.js"
 
-router.post("/", auth, createProjectController)
+router.post("/", auth, SchemaValidation(projectSchema), createProjectController)
 
 router.get("/", fetchProjectsController)
 

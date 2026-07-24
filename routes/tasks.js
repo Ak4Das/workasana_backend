@@ -8,12 +8,14 @@ import {
   updateTaskController,
   deleteTaskController,
 } from "../controllers/tasks.controller.js"
+import { SchemaValidation } from "../middleware/schemaValidation.middleware.js"
+import { taskSchema } from "../schemas/EditTask.schema.js"
 
 router.get("/", fetchTaskController)
 
 router.get("/:id", auth, fetchTaskByIdController)
 
-router.post("/", auth, createTaskController)
+router.post("/", auth, SchemaValidation(taskSchema), createTaskController)
 
 router.patch("/:id", auth, updateTaskController)
 
