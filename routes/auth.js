@@ -7,7 +7,7 @@ import {
   loginController,
   fetchMeController,
 } from "../controllers/auth.controller.js"
-import { SchemaValidation } from "../middleware/schemaValidation.middleware.js"
+import { SchemaValidation } from "../middleware/SchemaValidation.middleware.js"
 import { userSchema } from "../schemas/User.schema.js"
 import { loginSchema } from "../schemas/Login.schema.js"
 
