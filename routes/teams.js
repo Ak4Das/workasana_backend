@@ -7,7 +7,7 @@ import {
   fetchTeamByIdController,
   updateTeamController,
 } from "../controllers/teams.controller.js"
-import { SchemaValidation } from "../middleware/schemaValidation.middleware.js"
+import { SchemaValidation } from "../middleware/SchemaValidation.middleware.js"
 import { editTeamSchema } from "../schemas/EditTeam.schema.js"
 
 router.post("/", auth, SchemaValidation(editTeamSchema), createTeamController)
