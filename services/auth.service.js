@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import User from "../models/User.js"
+import { NotFoundError, ValidationError } from "../utils/customErrorHandler.js"
 
 export const signupService = async (req, res) => {
   try {
@@ -8,7 +9,7 @@ export const signupService = async (req, res) => {
     let userExists = await User.findOne({ email })
 
     if (userExists) {
-      return res.status(400).json({ message: "This email is already active." })
+      throw new ValidationError("This email is already active.")
     }
 
     const user = new User({ name, email, password, role })
@@ -22,7 +23,7 @@ export const signupService = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     })
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    throw error
   }
 }
 
@@ -32,12 +33,12 @@ export const loginService = async (req, res) => {
 
     const user = await User.findOne({ email })
     if (!user) {
-      return res.status(400).json({ message: "User not found." })
+      throw new NotFoundError("User not found.")
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid Password." })
+      throw new ValidationError("Invalid Password.")
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -48,7 +49,7 @@ export const loginService = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     })
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    throw error
   }
 }
 
@@ -56,7 +57,7 @@ export const fetchMeService = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password")
     if (!user) {
-      return res.status(404).json({ error: "User profile not found." })
+      throw new NotFoundError("User profile not found.")
     }
     res.status(200)
     res.json({
@@ -65,6 +66,6 @@ export const fetchMeService = async (req, res) => {
       respondedData: user,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }

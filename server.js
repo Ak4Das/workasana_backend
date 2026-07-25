@@ -32,6 +32,10 @@ app.use("/api/projects", projectRoutes)
 app.use("/api/tags", tagRoutes)
 app.use("/api/users", userRoutes)
 
+// Error handler middleware
+import { globalErrorHandler } from "./middleware/errorMiddleware.js"
+app.use(globalErrorHandler)
+
 // Start Server
 async function startServer() {
   try {

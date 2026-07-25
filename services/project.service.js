@@ -1,4 +1,5 @@
 import Project from "../models/Project.js"
+import { ValidationError } from "../utils/customErrorHandler.js"
 
 export const createProjectService = async (req, res) => {
   try {
@@ -6,9 +7,7 @@ export const createProjectService = async (req, res) => {
 
     const projectExists = await Project.findOne({ name })
     if (projectExists) {
-      return res
-        .status(400)
-        .json({ error: "A project with this title is already active." })
+      throw new ValidationError("A project with this title is already active.")
     }
 
     const newProject = new Project({ name, description, status })
@@ -20,7 +19,7 @@ export const createProjectService = async (req, res) => {
       respondedData: savedProject,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
 

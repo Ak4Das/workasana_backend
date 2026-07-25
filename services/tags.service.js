@@ -1,4 +1,5 @@
 import Tag from "../models/Tag.js"
+import { ValidationError } from "../utils/customErrorHandler.js"
 
 export const createTagService = async (req, res) => {
   try {
@@ -6,9 +7,7 @@ export const createTagService = async (req, res) => {
 
     const tagExists = await Tag.findOne({ name })
     if (tagExists) {
-      return res
-        .status(400)
-        .json({ error: "This tag name is already registered." })
+      throw new ValidationError("This tag name is already registered.")
     }
 
     const newTag = new Tag({ name })
@@ -20,7 +19,7 @@ export const createTagService = async (req, res) => {
       respondedData: savedTag,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
 

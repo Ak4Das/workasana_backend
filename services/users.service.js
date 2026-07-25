@@ -1,5 +1,9 @@
 import User from "../models/User.js"
 import bcrypt from "bcryptjs"
+import {
+  NotFoundError,
+  ValidationError,
+} from "../utils/customErrorHandler.js"
 
 export const fetchUsersService = async (req, res) => {
   try {
@@ -23,7 +27,7 @@ export const updateProfileService = async (req, res) => {
   try {
     const userProfile = await User.findById(req.user.id)
     if (!userProfile) {
-      return res.status(400).json({ error: "User profile not found." })
+      throw new NotFoundError("User profile not found.")
     }
 
     if (req.body.name) {
@@ -36,9 +40,9 @@ export const updateProfileService = async (req, res) => {
         userProfile.password,
       )
       if (!matchesCurrent) {
-        return res.status(400).json({
-          error: "The provided active validation password is invalid.",
-        })
+        throw new ValidationError(
+          "The provided active validation password is invalid.",
+        )
       }
 
       userProfile.password = req.body.newPassword
@@ -52,6 +56,6 @@ export const updateProfileService = async (req, res) => {
       respondedData: response,
     })
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message })
+    throw error
   }
 }

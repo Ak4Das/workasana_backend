@@ -1,4 +1,9 @@
 import Team from "../models/Team.js"
+import {
+  BadRequestError,
+  NotFoundError,
+  ValidationError,
+} from "../utils/customErrorHandler.js"
 
 export const createTeamService = async (req, res) => {
   try {
@@ -6,9 +11,7 @@ export const createTeamService = async (req, res) => {
 
     const teamExists = await Team.findOne({ name })
     if (teamExists) {
-      return res
-        .status(400)
-        .json({ error: "A team with this name already exists." })
+      throw new ValidationError("A team with this name already exists.")
     }
 
     const newTeam = new Team({ name, description, members: members || [] })
@@ -20,7 +23,7 @@ export const createTeamService = async (req, res) => {
       respondedData: savedTeam,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
 
@@ -46,7 +49,7 @@ export const fetchTeamByIdService = async (req, res) => {
     )
 
     if (!team) {
-      return res.status(404).json({ error: "Team not found." })
+      throw new NotFoundError("Team not found.")
     }
 
     res.status(200)
@@ -56,7 +59,7 @@ export const fetchTeamByIdService = async (req, res) => {
       respondedData: team,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
 
@@ -65,15 +68,13 @@ export const updateTeamService = async (req, res) => {
   const { teamId } = req.params
 
   if (name !== undefined && !name.trim()) {
-    return res.status(400).json({ error: "Team name cannot be blank." })
+    throw new BadRequestError("Team name cannot be blank.")
   }
 
   try {
     let team = await Team.findById(teamId)
     if (!team) {
-      return res
-        .status(404)
-        .json({ error: "The requested team profile could not be found." })
+      throw new NotFoundError("The requested team profile could not be found.")
     }
 
     if (name !== undefined) {
@@ -86,9 +87,9 @@ export const updateTeamService = async (req, res) => {
 
     if (members !== undefined) {
       if (!Array.isArray(members)) {
-        return res
-          .status(400)
-          .json({ error: "Members property must be an array of user IDs." })
+        throw new BadRequestError(
+          "Members property must be an array of user IDs.",
+        )
       }
       team.members = members
     }
@@ -107,6 +108,6 @@ export const updateTeamService = async (req, res) => {
       respondedData: updatedTeam,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }

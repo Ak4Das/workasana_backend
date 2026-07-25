@@ -1,4 +1,5 @@
 import Task from "../models/Task.js"
+import { NotFoundError } from "../utils/customErrorHandler.js"
 
 export const fetchTaskService = async (req, res) => {
   try {
@@ -65,7 +66,7 @@ export const fetchTaskByIdService = async (req, res) => {
       .populate("tags", "name")
 
     if (!task) {
-      return res.status(404).json({ error: "Task not found." })
+      throw new NotFoundError("Task not found.")
     }
 
     res.status(200)
@@ -74,8 +75,8 @@ export const fetchTaskByIdService = async (req, res) => {
       message: "Task fetched successfully",
       respondedData: task,
     })
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message })
+  } catch (error) {
+    throw error
   }
 }
 
@@ -119,7 +120,7 @@ export const updateTaskService = async (req, res) => {
       new: true,
     }).populate("project team owners tags")
     if (!updatedTask) {
-      return res.status(404).json({ error: "Task not found." })
+      throw new NotFoundError("Task not found.")
     }
 
     res.status(200)
@@ -129,7 +130,7 @@ export const updateTaskService = async (req, res) => {
       respondedData: updatedTask,
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
 
@@ -139,9 +140,7 @@ export const deleteTaskService = async (req, res) => {
     const task = await Task.findById(taskId)
 
     if (!task) {
-      return res
-        .status(404)
-        .json({ error: "Target task assignment not found." })
+      throw new NotFoundError("Target task assignment not found.")
     }
 
     await Task.findByIdAndDelete(taskId)
@@ -151,6 +150,6 @@ export const deleteTaskService = async (req, res) => {
       message: "Task successfully removed from workspace records.",
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message })
+    throw error
   }
 }
